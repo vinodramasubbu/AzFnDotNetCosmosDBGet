@@ -58,16 +58,18 @@ namespace Claims.Function
                 queryDefinition: query
             );
 
+            List<Claims1> results = new();
             while (feed.HasMoreResults)
             {
                 FeedResponse<Claims1> response = await feed.ReadNextAsync();
                 foreach (Claims1 item in response)
                 {
                     Console.WriteLine($"Found item:\t{item.claimId}\t{item.insuredName}\t{item.claimType}\t{item.claimStatus}");
-                    
+                    results.Add(item);
                 }
             }
-            return new OkResult();
+            //return new OkResult();
+            return (ActionResult)new OkObjectResult(results);
         }
     }
 }
